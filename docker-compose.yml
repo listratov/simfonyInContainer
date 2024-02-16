@@ -13,8 +13,6 @@ services:
             - "8080:80"
         networks:
             - symfony_app
-        env_file:
-            - .docker/.env.nginx.local
         depends_on:
             - php
     php:
