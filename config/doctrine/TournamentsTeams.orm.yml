@@ -1,0 +1,9 @@
+App\Entity\TournamentsTeams:
+    type: entity
+    # ...
+    oneToMany:
+        products:
+            targetEntity: App\Entity\Teams
+            mappedBy: tournaments_teams
+# Don't forget to initialize the collection in
+# the __construct() method of the entity

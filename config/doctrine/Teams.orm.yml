@@ -1,0 +1,9 @@
+App\Entity\Teams:
+    type: entity
+    # ...
+    manyToOne:
+        category:
+            targetEntity: App\Entity\TournamentsTeams
+            inversedBy: teams
+            joinColumn:
+                nullable: false

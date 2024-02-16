@@ -1,0 +1,23 @@
+### GET Список всех доступных турниров с возможностью перейти на каждый из этих турниров
+GET http://localhost:8080/
+Accept: application/json
+
+### GET Список доступных турниров с возможностью добавить/удалить
+GET http://localhost:8080/tournaments
+Accept: application/json
+
+### POST Метод добавления турнира.
+POST http://localhost:8080/tournaments/add
+Content-Type: application/x-www-form-urlencoded
+
+name = Test
+
+### GET Список команд с возможностью добавления/удаления
+GET http://localhost:8080/teams
+Content-Type: application/x-www-form-urlencoded
+
+### POST Метод добавления команды.
+POST http://localhost:8080/teams/add
+Content-Type: application/x-www-form-urlencoded
+
+name = Test
