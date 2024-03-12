@@ -51,13 +51,13 @@ class TournamentsController extends AbstractController
         /** @var TournamentsTeams $item */
         foreach ($tr as $item) {
 
-            try {
-                $commands = $item->getTeamsId()->getName() . ' vs ' . $item->getTeamsId2()->getName();
-            } catch (\Exception) {
-                $commands = 'Турнир отклонен из-за удаления команды.';
-            }
+            $id =$item->getId();
             $tr_name = $item->getTournaments()->getName() ?? '';
-            $comand[] = $commands . ' ' . $item->getDate()->format('Y-m-d H:i');
+            $comand[$id]['id_1'] = $item->getTeam()->getId();
+            $comand[$id]['id_2'] = $item->getTeam2()->getId();
+            $comand[$id]['name1'] = $item->getTeam()->getName();
+            $comand[$id]['name2'] = $item->getTeam2()->getName();
+            $comand[$id]['date'] = $item->getDate()->format('Y-m-d H:i');
         }
 
         return $this->render('tournaments/tournament.html.twig', [

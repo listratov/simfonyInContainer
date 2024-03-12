@@ -53,12 +53,12 @@ class TournamentsTeams
         $this->id = $id;
     }
 
-    public function getTeamsId2()
+    public function getTeam2()
     {
         return $this->teams_id2;
     }
 
-    public function setTeamsId2($teams_id2)
+    public function setTeam2($teams_id2)
     {
         $this->teams_id2 = $teams_id2;
     }
@@ -76,17 +76,17 @@ class TournamentsTeams
         return $this->tournaments;
     }
 
-    public function setTournamentsId($tournaments_id)
+    public function setTournamentsId($tournaments_id): void
     {
         $this->tournaments = $tournaments_id;
     }
 
-    public function getTeamsId()
+    public function getTeam()
     {
         return $this->teams_id;
     }
 
-    public function setTeamsId($teams_id)
+    public function setTeam($teams_id): void
     {
         $this->teams_id = $teams_id;
     }
@@ -96,7 +96,7 @@ class TournamentsTeams
         return $this->date;
     }
 
-    public function setDate(\DateTime $date)
+    public function setDate(\DateTime $date): void
     {
         $this->date = $date;
     }

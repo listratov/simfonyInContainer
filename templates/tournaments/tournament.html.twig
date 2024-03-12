@@ -4,7 +4,16 @@
     <ul class="list-group">
         <h2>{{ tr_name }}</h2>
         {% for key,value in teams %}
-            <li class="list-group-item">{{ value }}</li>
+            <li class="list-group-item">
+                <a href="/teams/{{ value.id_1 }}">
+                    {{ value.name1 }}
+                </a>
+                 VS
+                <a href="/teams/{{ value.id_2 }}">
+                    {{ value.name2 }}
+                </a>
+                    ( {{ value.date }} )
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}
