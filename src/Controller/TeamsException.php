@@ -12,6 +12,6 @@ class TeamsException extends \Exception
 
     public function sendAlert($message): string
     {
-       return $message ?? 'Error';
+        return $message ?? 'Error';
     }
 }

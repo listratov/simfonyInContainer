@@ -1,0 +1,19 @@
+{% include 'header.html.twig' %}
+
+{% block body %}
+    <ul class="list-group">
+        {% for key,value in teams %}
+            <li class="list-group-item"> {{ value }}
+                <form action="/teams/del" method="post">
+                    <button class="btn btn-danger" type="submit" name="key" value="{{ key }}">Удалить</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <form action="/teams/add" method="post" class="addForm">
+        <input type="text" name="name">
+        <input class="btn btn-success" value="Добавить" type="submit">
+    </form>
+{% endblock %}
+
+{% include 'footer.html.twig' %}

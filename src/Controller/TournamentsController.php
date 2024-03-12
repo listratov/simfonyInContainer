@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Tournaments;
@@ -23,46 +24,43 @@ class TournamentsController extends AbstractController
 
         foreach ($tournaments as $item) {
             $data = $item->getDate() ? $item->getDate()->format('Y-m-d H:i') : '';
-            $tourname[$item->getId()] = $item->getName() . '  ' . $data ;
+            $tourname[$item->getId()] = $item->getName() . '  ' . $data;
         }
 
-        return $this->render('tournaments.html.twig', [
+        return $this->render('tournaments/tournaments.html.twig', [
             'tournaments' => $tourname ?? []
         ]);
     }
 
     #[NoReturn] #[Route('/tournaments/{slug}/', name: 'definiteTournaments')]
-    public function showTournamentsDefinite(string $slug,
+    public function showTournamentsDefinite(string                     $slug,
                                             TournamentsTeamsRepository $tmr,
-                                            ManagerRegistry $doctrine,
-                                            Request $request
-                                            ): Response
+                                            ManagerRegistry            $doctrine,
+                                            Request                    $request
+    ): Response
     {
-            if(!$id = $request->request->get('key')) {
-                $trn = $doctrine->getRepository(Tournaments::class)
-                    ->findOneBy(['name' => $slug]);
-                if(!$trn)
-                    throw new Exception('Турнир не найден');
-                $id = $trn->getId();
-            }
 
-        $tr = $tmr->findBy(['tournaments'=>$id]);
+        $trn = $doctrine->getRepository(Tournaments::class)->findOneBy(['slug' => $slug]);
+
+        if (!$trn)
+            throw new Exception('Турнир не найден');
+
+        $tr = $tmr->findBy(['tournaments' => $trn->getId()]);
         $tr_name = '';
 
         /** @var TournamentsTeams $item */
         foreach ($tr as $item) {
 
-            try{
-                $commands =  $item->getTeamsId()->getName() . ' vs ' . $item->getTeamsId2()->getName();
-            }
-            catch (\Exception){
+            try {
+                $commands = $item->getTeamsId()->getName() . ' vs ' . $item->getTeamsId2()->getName();
+            } catch (\Exception) {
                 $commands = 'Турнир отклонен из-за удаления команды.';
             }
             $tr_name = $item->getTournaments()->getName() ?? '';
             $comand[] = $commands . ' ' . $item->getDate()->format('Y-m-d H:i');
         }
 
-        return $this->render('tournament.html.twig', [
+        return $this->render('tournaments/tournament.html.twig', [
             'tr_name' => $tr_name,
             'teams' => $comand ?? [],
         ]);

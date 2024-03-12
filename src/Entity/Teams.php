@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use AllowDynamicProperties;
 use App\Repository\TeamsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TeamsRepository::class)]
 class Teams
@@ -14,7 +14,9 @@ class Teams
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(name: 'name', type: 'string', length: 255)]
+    #[Assert\Length(min: 3, max: 255)]
+    #[Assert\NotBlank]
     private string $name;
 
     #[ORM\Column(type: 'datetime')]
@@ -46,11 +48,12 @@ class Teams
 
     public function setDate(\DateTimeInterface $date = null): void
     {
-        if(!$date)
+        if (!$date)
             $date = new \DateTime('now', new \DateTimeZone('Europe/Moscow'));
 
         $this->date = $date;
     }
+
     public function getTournamentsTeams(): ?TournamentsTeams
     {
         return $this->tournaments_teams;

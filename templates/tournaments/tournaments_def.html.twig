@@ -1,0 +1,15 @@
+{% include 'header.html.twig' %}
+
+{% block body %}
+    <ul class="list-group">
+        {% for key,value in tournaments %}
+            <li class="list-group-item"> Value : {{ value }}
+                <form action="/tournaments/del" method="post">
+                    <button type="submit" name="key" value="{{ key }}">Удалить</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% include 'footer.html.twig' %}

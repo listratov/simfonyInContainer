@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class IndexController  extends AbstractController
+class IndexController extends AbstractController
 {
     #[Route('/')]
     function AllTournaments(EntityManagerInterface $em): Response
@@ -17,10 +17,11 @@ class IndexController  extends AbstractController
         $tournaments = $em->getRepository(Tournaments::class)->findAll();
 
         foreach ($tournaments as $item) {
-            $tournament[$item->getId()] =  $item->getName();
+            $tournament[$item->getId()]['name'] = $item->getName();
+            $tournament[$item->getId()]['slug'] = $item->getSlug();
         }
 
-        return $this->render('tournaments_all.html.twig', [
+        return $this->render('tournaments/tournaments_all.html.twig', [
             'tournaments' => $tournament ?? [],
         ]);
     }

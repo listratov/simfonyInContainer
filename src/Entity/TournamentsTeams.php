@@ -21,9 +21,6 @@ class TournamentsTeams
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
-
     #[ORM\ManyToOne(targetEntity: Tournaments::class)]
     #[JoinColumn(name: "tournaments_id", referencedColumnName: "id")]
     private $tournaments;
@@ -34,7 +31,7 @@ class TournamentsTeams
 
     #[ORM\OneToOne(targetEntity: Teams::class)]
     #[JoinColumn(name: "teams_id2", referencedColumnName: "id")]
-    private $teams_id2 ;
+    private $teams_id2;
 
     #[Column(type: 'datetime')]
     private \DateTime $date;
@@ -50,6 +47,7 @@ class TournamentsTeams
     {
         return $this->id;
     }
+
     public function setId($id)
     {
         $this->id = $id;
@@ -64,6 +62,7 @@ class TournamentsTeams
     {
         $this->teams_id2 = $teams_id2;
     }
+
     /**
      * @return Collection
      */

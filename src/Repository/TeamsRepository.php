@@ -6,6 +6,7 @@ use App\Entity\Teams;
 use App\Entity\TournamentsTeams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 /**
  * @extends ServiceEntityRepository<Teams>
  *

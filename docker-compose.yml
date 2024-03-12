@@ -1,60 +1,79 @@
 version: "3"
 
 services:
-    nginx:
-        build:
-            context: .docker/nginx
-        volumes:
-            - ./:/var/www/symfony
-            - ./:/var/www/symfony:cached
-            - ./var:/var/www/symfony/var
-            - ./vendor:/var/www/symfony/vendor
-        ports:
-            - "8080:80"
-        networks:
-            - symfony_app
-        depends_on:
-            - php
-    php:
-        build:
-            context: .docker/php
-            args:
-                TIMEZONE: ${TIMEZONE}
-        volumes:
-            - ./:/var/www/symfony
-            - ./var/cache/dev:/var/www/symfony:cached
-            - ./var:/var/www/symfony/var
-            - ./vendor:/var/www/symfony/vendor
-        environment:
-            PHP_IDE_CONFIG: "serverName=symfony-docker"
-        networks:
-            - symfony_app
-        expose:
-            - 9009
-        depends_on:
-            - database
-    database:
-        build:
-            context: .docker/mysql
-            dockerfile: Dockerfile
-        restart: always
-        environment:
-            - MYSQL_DATABASE=db_project
-            - MYSQL_USER=user
-            - MYSQL_PASSWORD=password
-            - MYSQL_ROOT_PASSWORD=root
-        volumes:
-            - .docker/mysql:/docker-entrypoint-initdb.d/
-            - ./data:/var/lib/mysql
-        ports:
-            - "3321:3306"
-        networks:
-            - symfony_app
-networks:
-    symfony_app:
-        driver: bridge
-        ipam:
-            driver: default
-            config:
-                - subnet: 192.168.220.0/24
+  nginx:
+    build:
+      context: .docker/nginx
+    volumes:
+      - ./:/var/www/symfony
+      - ./:/var/www/symfony:cached
+      - ./var:/var/www/symfony/var
+      - ./vendor:/var/www/symfony/vendor
+    ports:
+      - "8080:80"
+    networks:
+      - symfony_app
+    depends_on:
+      - php
+  php:
+    build:
+      context: .docker/php
+      args:
+        TIMEZONE: ${TIMEZONE}
+    volumes:
+      - ./:/var/www/symfony
+      - ./var/cache/dev:/var/www/symfony:cached
+      - ./var:/var/www/symfony/var
+      - ./vendor:/var/www/symfony/vendor
+    environment:
+      PHP_IDE_CONFIG: "serverName=symfony-docker"
+    networks:
+      - symfony_app
+    expose:
+      - 9009
+    depends_on:
+      - database
+  database:
+    build:
+      context: .docker/mysql
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - MYSQL_DATABASE=db_project
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - .docker/mysql:/docker-entrypoint-initdb.d/
+      - ./data:/var/lib/mysql
+    ports:
+      - "3321:3306"
+    networks:
+      - symfony_app
 
+  ###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-16}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+networks:
+  symfony_app:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.220.0/24
+
+
+volumes:
+  ###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###

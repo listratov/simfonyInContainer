@@ -1,0 +1,12 @@
+{% include 'header.html.twig' %}
+
+{% block body %}
+    <ul class="list-group">
+        <h2>{{ tr_name }}</h2>
+        {% for key,value in teams %}
+            <li class="list-group-item">{{ value }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% include 'footer.html.twig' %}

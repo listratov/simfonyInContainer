@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\TournamentsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ORM\Entity(repositoryClass: TournamentsRepository::class)]
 class Tournaments
@@ -12,16 +14,22 @@ class Tournaments
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private string $name;
+    #[ORM\Column(name: 'name', type: 'string', length: 255)]
+    #[Assert\Length(min: 3, max: 255)]
+    #[Assert\NotBlank]
+    protected string $name;
+
+    #[ORM\Column(name: 'slug', type: 'string', length: 255)]
+    #[Assert\NotBlank]
+    protected string $slug;
 
     #[ORM\Column(type: 'datetime')]
     protected ?\DateTimeInterface $date = null;
 
     #[ORM\OneToMany(mappedBy: 'tournaments', targetEntity: TournamentsTeams::class)]
-    private $tournaments_teams = null;
+    protected $tournaments_teams = null;
 
 
     public function __construct()
@@ -29,30 +37,31 @@ class Tournaments
         $this->tournaments_teams = new ArrayCollection();
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $name)
+    public function setName(string $name): static
     {
         $this->name = $name;
 
         return $this;
     }
+
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date = null)
+    public function setDate(\DateTimeInterface $date = null): void
     {
-        if(!$date)
+        if (!$date)
             $date = new \DateTime('now', new \DateTimeZone('Europe/Moscow'));
 
         $this->date = $date;
@@ -62,5 +71,20 @@ class Tournaments
     {
         return $this->tournaments_teams;
     }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
+    }
+
+//    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+//    {
+//        $metadata->addPropertyConstraint('name', new Assert\NotBlank());
+//    }
 
 }

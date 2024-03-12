@@ -1,0 +1,12 @@
+{% include 'header.html.twig' %}
+
+{% block body %}
+    <h3>The tournament the following errors</h3>
+    <ul>
+        {% for error in errors %}
+            <li>{{ error.message }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% include 'footer.html.twig' %}

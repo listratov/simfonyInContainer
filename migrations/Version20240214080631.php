@@ -20,35 +20,37 @@ final class Version20240214080631 extends AbstractMigration
         );
 
         $sql = <<<SQL
-
-create schema if not exists db_project collate utf8mb4_0900_ai_ci;
-
-create table if not exists teams
+create table teams
 (
-    id int auto_increment
+    id   int auto_increment
         primary key,
     name varchar(255) not null,
-    date datetime not null
+    date datetime     null
 );
 
-create table if not exists tournaments
+create table tournaments
 (
-    id int auto_increment
+    id   int auto_increment
         primary key,
     name varchar(255) not null,
-    date datetime null
+    slug varchar(255) not null,
+    date datetime     null
 );
 
-create table if not exists tournaments_teams
+create table tournaments_teams
 (
-    id int auto_increment,
-    tournaments_id int null,
-    teams_id int null,
-    teams_id2 int null,
-    date datetime null,
-    name int null,
-    constraint id
-        unique (id)
+    id   int auto_increment
+        primary key,
+    tournaments_id int      null,
+    teams_id       int      null,
+    teams_id2      int      null,
+    date           datetime null,
+    constraint tournamentsId_tems___t
+        foreign key (tournaments_id) references tournaments (id) ON DELETE CASCADE,
+    constraint tournamentsId_tems___fk1
+        foreign key (teams_id) references teams (id),
+    constraint tournamentsId_tems___fk2
+        foreign key (teams_id2) references teams (id)
 );
 SQL;
 
