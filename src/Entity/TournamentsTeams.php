@@ -86,7 +86,7 @@ class TournamentsTeams
         return $this->teams_id;
     }
 
-    public function addTeamsId($teams_id)
+    public function setTeamsId($teams_id)
     {
         $this->teams_id = $teams_id;
     }

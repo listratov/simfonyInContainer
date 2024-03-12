@@ -57,7 +57,7 @@ class TournamentsActionController extends AbstractController
                 $t++;
                 $tournamentsTeams = new TournamentsTeams();
                 $tournamentsTeams->setTournamentsId($tournaments);
-                $tournamentsTeams->addTeamsId($teamsId);
+                $tournamentsTeams->setTeamsId($teamsId);
                 $tournamentsTeams->setTeamsId2($teamsId2);
                 $datetime = new \DateTime("now +{$t} day", new \DateTimeZone('Europe/Moscow'));
                 $tournamentsTeams->setDate($datetime);

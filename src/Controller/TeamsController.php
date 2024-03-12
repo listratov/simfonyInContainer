@@ -10,7 +10,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TeamsController extends AbstractController
 {
-
     #[Route('/teams', 'teams')]
     public function showTeams(EntityManagerInterface $em): Response
     {
