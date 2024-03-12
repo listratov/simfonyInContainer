@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\TeamsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TeamsRepository::class)]
+#[UniqueEntity('name')]
 class Teams
 {
     #[ORM\Id]
@@ -14,7 +16,7 @@ class Teams
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'name', type: 'string', length: 255)]
+    #[ORM\Column(name: 'name', type: 'string', length: 255, unique: true)]
     #[Assert\Length(min: 3, max: 255)]
     #[Assert\NotBlank]
     private string $name;

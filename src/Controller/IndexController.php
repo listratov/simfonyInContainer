@@ -19,6 +19,7 @@ class IndexController extends AbstractController
         foreach ($tournaments as $item) {
             $tournament[$item->getId()]['name'] = $item->getName();
             $tournament[$item->getId()]['slug'] = $item->getSlug();
+            $tournament[$item->getId()]['date'] = $item->getDate()->format('Y-m-d H:i');
         }
 
         return $this->render('tournaments/tournaments_all.html.twig', [

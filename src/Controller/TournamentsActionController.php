@@ -28,9 +28,17 @@ class TournamentsActionController extends AbstractController
     {
         $tournaments = new Tournaments();
         $name = $request->request->get('name');
-        $tournaments->setName($name);
+
         $slugger = new AsciiSlugger();
         $slug = $slugger->slug($name)->lower();
+
+        $isTournir = $em->getRepository(Tournaments::class)->findOneBy(['slug' => $slug]);
+
+        if($isTournir)
+        {
+            $slug = $slug . '_' . time();
+        }
+        $tournaments->setName($name);
         $tournaments->setSlug($slug);
         $tournaments->setDate(new \DateTime('now', new \DateTimeZone('Europe/Moscow')));
         $errors = $validator->validate($tournaments);

@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\TournamentsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ORM\Entity(repositoryClass: TournamentsRepository::class)]
+#[UniqueEntity('slug')]
 class Tournaments
 {
     #[ORM\Id]
@@ -21,7 +23,7 @@ class Tournaments
     #[Assert\NotBlank]
     protected string $name;
 
-    #[ORM\Column(name: 'slug', type: 'string', length: 255)]
+    #[ORM\Column(name: 'slug', type: 'string', length: 255, unique: true)]
     #[Assert\NotBlank]
     protected string $slug;
 
