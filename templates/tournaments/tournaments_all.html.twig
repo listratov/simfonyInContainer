@@ -1,0 +1,23 @@
+{% include 'header.html.twig' %}
+{% block body %}
+    <ul class="list-group">
+        {% for key,value in tournaments %}
+            {#    <form method="post" action="/tournaments/{{ value }}" class="inline"> #}
+            {#      <input type="hidden" name="extra_submit_param" value=" {{ key }}"> #}
+            {#      <button type="submit" name="submit_param" value="submit_value" class="link-button"> #}
+            {#        {{ value }} #}
+            {#      </button> #}
+            {#    </form> #}
+
+            <li class="list-group-item">
+                <form action="/tournaments/{{ value.slug }}/" method="post">
+                    <button class="btn btn-success" type="submit"
+                            name="key" value="{{ key }}">{{ value.name }} / {{ value.date }} </button>
+                </form>
+            </li>
+
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% include 'footer.html.twig' %}

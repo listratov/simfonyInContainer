@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Teams;
@@ -9,7 +10,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TeamsController extends AbstractController
 {
-
     #[Route('/teams', 'teams')]
     public function showTeams(EntityManagerInterface $em): Response
     {
@@ -17,10 +17,10 @@ class TeamsController extends AbstractController
         $teams = $em->getRepository(Teams::class)->findAll();
 
         foreach ($teams as $item) {
-            $comand[$item->getId()] =  $item->getName();
+            $comand[$item->getId()] = $item->getName();
         }
 
-        return $this->render('teams.html.twig', [
+        return $this->render('teams/teams.html.twig', [
             'teams' => $comand ?? [],
         ]);
     }
